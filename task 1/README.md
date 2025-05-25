@@ -1,85 +1,39 @@
-# Terraform AWS EC2 Instance Setup
+Setting Up an AWS EC2 Instance Using Terraform This guide will help you set up a virtual machine (EC2 instance) on AWS using Terraform. The configurations use variables for flexibility, but you can also hardcode the values if you prefer.
 
-This file helps you create an EC2 instance on AWS using Terraform. This file contains variableized values for now, but you can also hardcode the values instead of variabilizing them as well.
+Configuration Overview Here’s what we’re setting up: EC2 Instance Type: t3.micro Operating System: Ubuntu (specified using an AMI ID) Subnet: Custom (can be configured) Public IP: Disabled Root EBS Volume Size: Increased to 12 GB
 
+Step 1: Install the Required Tools Open your terminal and run:
 
-##  Configurations
+sudo apt update sudo apt install awscli -y aws --version
 
-- EC2 instance type: `t3.micro`
-- OS: Ubuntu (via AMI ID)
-- Subnet: <subnet id>
-- Public IP: Disabled
-- Root EBS volume: Increased to 12 GB
+Install Terraform (Windows)
 
+choco install terraform Step 2: Set Up AWS CLI Once AWS CLI is installed, configure it by running:
 
-## Step 1: Installation
+aws configure You’ll be prompted to enter the following:
 
-###  Install AWS CLI
+AWS Access Key
 
-```bash
-sudo apt update
-sudo apt install awscli -y
-aws --version
-```
-## Install Terraform  
-### Open the powershell as an admin, then copy the following command on the command panel 
-```bash
-choco install terraform
-```
----
-## Step 2: Configure AWS CLI
-```bash
-aws configure
-```
-### the following will appear on your command panel after you type in "aws configure"
-```bash
-# - AWS Access Key
-# - AWS Secret Key
-# - Default region (e.g., us-east-1)
-# - Output format (json)
-```
-## The Access Key is obtained by following the steps mentioned below: 
+AWS Secret Access Key
 
-1. Sign in to the AWS Management Console
-2. Click on your username in the top right corner of the console, and then select "My Security Credentials".
-3. Scroll down and click on "Create New Access Key" to generate a new pair of access keys.
-4. You can then either "Show Access Key" to view the keys on screen or "Download Key File" to save them as a .csv file.
-5. The secret access key is only shown once, so be sure to secure the .csv file or copy the keys before closing the window.
-   
----
+Log in to the AWS Management Console.
 
-## Step 3: File Setup 
+Click your username in the top-right corner and select "My Security Credentials".
 
- Your file structure should look like this
-```bash
+Scroll down to Access Keys and click "Create New Access Key".
 
-| File              | Purpose                                                                 |
-|-------------------|-------------------------------------------------------------------------|
-| `provider.tf`     | Defines AWS provider and credentials (hardcoded access + secret key)|
-| `main.tf`         | Contains the EC2 instance resource block with all configurable fields   |
-| `variables.tf`    | Declares all input variables used in `main.tf`                          |
-| `terraform.tfvars`| Provides actual values for declared variables                           |
+You can either view the keys on screen or download them as a .csv file.
 
-```
----
-## Step 4: Terraform Commands to execute the operation
+Step 3: Set Up Your Project Files Your project should include the following files:
 
-### 1. Initialize the project
-```bash
-terraform init
-```
+File Name Description provider.tf Sets up the AWS provider and your credentials main.tf Defines the EC2 instance configuration variables.tf Declares all the input variables used in the main config terraform.tfvars Stores the actual values for the variables
 
-### 2. Preview the changes
-```bash
-terraform plan
-```
+Step 4: Run Terraform Commands Once your files are ready, use the following commands in order:
 
-### 3.Apply the changes
-```bash
-terraform apply -auto-approve
-```
+Initialize the project terraform init
 
-### 4. If you wish to destroy (delete) the resouces created you can run the following command:
-```bash
-terraform destroy -auto-approve
-```
+Check the execution plan terraform plan
+
+Apply the configuration to launch your EC2 instance terraform apply -auto-approve
+
+To delete the resources when you're done terraform destroy -auto-approve
