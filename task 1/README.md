@@ -1,3 +1,5 @@
+                                                                 TASK-1
+
 Setting Up an AWS EC2 Instance Using Terraform This guide will help you set up a virtual machine (EC2 instance) on AWS using Terraform. The configurations use variables for flexibility, but you can also hardcode the values if you prefer.
 
 Configuration Overview Here’s what we’re setting up: EC2 Instance Type: t3.micro Operating System: Ubuntu (specified using an AMI ID) Subnet: Custom (can be configured) Public IP: Disabled Root EBS Volume Size: Increased to 12 GB
