@@ -3,7 +3,7 @@
 # this is important for remote state management and collaboration in a team environment.
 terraform {
   backend "s3" {
-    bucket         = "newbuckfortf"
+    bucket         = "newbucketas"
     key            = "dev/terraform.tfstate"
     region         = "eu-north-1"
   }
