@@ -1,11 +1,11 @@
 variable "aws_region" {
   type        = string
-  default     = "ap-southeast-2"
+  default     = "eu-north-1"
 }
 
 variable "vpc_cidr" {
   type        = string
-  default     = "172.31.0.0/16"
+  default     = "172.30.0.0/16"
 }
 
 variable "az_count" {
@@ -20,7 +20,7 @@ variable "db_pass" {
 
 variable "availability_zones" {
   type        = list(string)
-  default     = ["ap-southeast-2a", "ap-southeast-2b"]
+  default     = ["eu-north-1a", "eu-north-1b"]
 }
 
 variable "key_name" {
