@@ -1,5 +1,5 @@
 aws_region    = "eu-north-1"
-vpc_cidr      = "172.30.0.0/16"
+vpc_cidr      = "172.31.0.0/16"
 az_count      = 2
 db_pass       = "syndicates"
 availability_zones = ["eu-north-1a", "eu-north-1b"]
