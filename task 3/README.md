@@ -1,53 +1,59 @@
-Multi-Environment Infrastructure Setup
+Multi-Environment Infrastructure Setup with Terraform
 
-In this task, we are using Terraform to create and manage infrastructure across different environments: development (dev), testing (test), and production (prod). The project is organized in a modular way, which means different parts of the infrastructure (like EC2, VPC, Subnets, etc.) are separated into reusable components called modules. This approach makes the code more organized, easier to manage, and scalable when more resources or environments are added later.
+This is a project to setup and manage AWS cloud infrastructure in multiple environments—dev, test, and prod—using Terraform. The infrastructure is composed using reusable modules, which keeps the codebase tidy, scalable, and easy to manage. Every environment (dev, test, prod) maintains its own configurations, with the common logic abstracted into modules.
 
-Folder Structure Overview:
+Project Folder Structure
 
-project/ ├── dev/ ├── test/ ├── prod/ └── modules/
+The project directory is set as follows:
+dev
+test
 
-Each folder has a specific purpose. The dev, test, and prod folders are used to set up infrastructure specific to that environment. The modules folder contains the actual building blocks that are reused in each environment.
+prod
 
-Environment Folder: dev/
+modules
 
-The dev folder contains Terraform configuration for the development environment. Here we define how different modules (like VPC, EC2, etc.) are instantiated and configured using environment-specific values.
+All the first three folders have configurations for one environment each. The modules folder stores shared building blocks that are referenced in each environment.
 
-Key Files in the dev/ folder:
+Development Environment Configuration (dev folder)
 
-backend.tf: This file is used to configure the remote state backend. Remote state allows storing the Terraform state file (which keeps track of resources created) in a remote location like AWS S3 or Terraform Cloud. This is useful for team collaboration.
+The dev folder stores all Terraform files required to configure the development environment infrastructure. It establishes how modules such as VPC, EC2, and subnets are joined and tailored using development-specific values.
 
-local.tf: Defines local variables that are only used within this environment. These variables are not passed externally but used internally to simplify logic.
+Files commonly found in this folder:
 
-main.tf: The main configuration file that calls and connects the different modules (like VPC, EC2, Subnet, etc.) together using variables.
+backend.tf – Declares where the state file for Terraform will be remotely stored, e.g., an S3 bucket or Terraform Cloud workspace. Remote state provides consistency and facilitates team collaboration.
 
-output.tf: Defines what information should be shown to the user after applying Terraform. For example, the public IP of the EC2 instance, VPC ID, or subnet ID.
+local.tf – Declares local-only variables that are utilized to declutter internal logic within the environment. Such variables are not passed in from outside.
 
-provider.tf: Configures the cloud provider. In this case, AWS. It includes details like the AWS region and credentials.
+main.tf – Serves as the main configuration file that consolidates different modules such as VPC, subnets, and EC2 instances by providing them values.
 
-terraform.tfvars: Contains the actual values for the variables declared in variable.tf. These are specific to the development environment.
+output.tf – Specifies the values that will be returned by Terraform when it executes the configuration. For instance, this can contain the public IP of the instance or IDs of the created resources.
 
-variable.tf: Declares the input variables that main.tf needs. For example, CIDR blocks, instance types, availability zones, etc.
+provider.tf – Configures the cloud provider utilized for this project, AWS. It has details like the region chosen and authentication credentials.
 
-This structure helps us manage the infrastructure for development separately without affecting testing or production.
+terraform.tfvars – Holds real input values for variables declared in variable.tf. These are specific to the development environment.
 
-Modules Folder: modules/
+variable.tf – Defines the input variables needed for the main configuration file. These can be CIDR blocks, EC2 instance types, and availability zones.
 
-This folder contains reusable Terraform modules. Each subfolder represents a module that manages a specific AWS resource or component. These modules can be called in any environment folder (like dev, test, or prod), which helps avoid repeating the same code.
+This structure enables every environment to run in isolation, which is perfect for ensuring separation between development, test, and production phases.
 
-Subfolders inside modules/:
+Modules Folder Overview (modules folder)
 
-ec2/: This module creates EC2 instances. It uses parameters like AMI ID, instance type, key pair name, subnet ID, and instance tags.
+The modules folder contains reusable modules, which are designed to handle a piece of the AWS infrastructure. These modules are referred to by the core configuration files in each environment directory, lessening duplication and enhancing consistency.
 
-eip/: Manages Elastic IPs. These are static public IP addresses that can be attached to EC2 instances.
+Subfolders typically in the modules directory:
 
-igw/: Creates an Internet Gateway, which allows public subnets to access the internet.
+ec2 – Specifies how instances of EC2 are launched. Accepts parameters such as the image ID, instance type, key pair, subnet ID, and name tags.
 
-nat/: Creates a NAT Gateway. This allows instances in private subnets to access the internet (like for installing packages) without being exposed publicly.
+eip – Controls the launch of Elastic IP addresses, which are static public IP addresses that can be associated with EC2 instances.
 
-s3/: Sets up S3 buckets. These can be used for storing logs, Terraform state files, or application data.
+igw – Has logic for launching an Internet Gateway, used for public subnets to access the internet.
 
-sg/: Manages security groups and rules. Security groups control what traffic is allowed in or out of EC2 instances or other AWS services.
+nat – Specifies a NAT Gateway setup. This enables private instances to see the internet (e.g., for updated downloads) but not expose them to incoming traffic.
 
-subnet/: Creates subnets inside a VPC. These can be public or private and are defined using CIDR blocks and availability zones.
+s3 – Employed to create S3 buckets. They might be used to store application files, logs, or even Terraform remote state.
 
-vpc/: Creates the Virtual Private Cloud (VPC), which is the core of the AWS networking setup. Other resources like subnets, EC2, and gateways are built inside the VPC.
+sg – Controls security groups and rules. These specify what network traffic is permitted to and from AWS resources such as EC2.
+
+subnet – Establishes subnets in the VPC. Subnets are defined with CIDR blocks and are allocated to designated availability zones. They can be designated as public or private.
+
+vpc – Manages the creation of the Virtual Private Cloud (VPC), which serves as the root network in AWS where all other elements are spun up.
