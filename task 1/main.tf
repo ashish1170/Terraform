@@ -9,6 +9,6 @@ resource "aws_instance" "myec2" {
   }
 
   tags = {
-    Name = "NewInstance"    # Name for the instance
+    Name = "Instance1"    # Name for the instance
   }
 }
