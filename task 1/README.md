@@ -1,41 +1,84 @@
                                                                  TASK-1
+This whole guide will help you how to launch a virtual machine (EC2 instance) on Amazon Web Services (AWS) using Terraform. Variables are used for flexibility, but you can also insert values directly if you prefer simplicity.
 
-Setting Up an AWS EC2 Instance Using Terraform This guide will help you set up a virtual machine (EC2 instance) on AWS using Terraform. The configurations use variables for flexibility, but you can also hardcode the values if you prefer.
+Overview of the Setup
 
-Configuration Overview Here’s what we’re setting up: EC2 Instance Type: t3.micro Operating System: Ubuntu (specified using an AMI ID) Subnet: Custom (can be configured) Public IP: Disabled Root EBS Volume Size: Increased to 12 GB
+Here's what will be created as part of this setup:
 
-Step 1: Install the Required Tools Open your terminal and run:
+EC2 instance type: t3.micro
 
-sudo apt update sudo apt install awscli -y aws --version
+Operating system: Ubuntu (defined using an AMI ID)
 
-Install Terraform (Windows)
+Subnet: Custom (defined by the user)
 
-choco install terraform Step 2: Set Up AWS CLI Once AWS CLI is installed, configure it by running:
+Public IP: Disabled
 
-aws configure You’ll be prompted to enter the following:
+Root EBS volume: 12 GB
 
-AWS Access Key
+Step 1: Install Necessary Tools
 
-AWS Secret Access Key
+Before starting, make sure the following tools are installed:
 
-Log in to the AWS Management Console.
+For AWS CLI on windows:
 
-Click your username in the top-right corner and select "My Security Credentials".
+Run a system update
 
-Scroll down to Access Keys and click "Create New Access Key".
+Install the AWS CLI package
 
-You can either view the keys on screen or download them as a .csv file.
+Confirm installation using a version check command
 
-Step 3: Set Up Your Project Files Your project should include the following files:
+For Terraform on Windows:
 
-File Name Description provider.tf Sets up the AWS provider and your credentials main.tf Defines the EC2 instance configuration variables.tf Declares all the input variables used in the main config terraform.tfvars Stores the actual values for the variables
+Use Chocolatey to install Terraform
 
-Step 4: Run Terraform Commands Once your files are ready, use the following commands in order:
+Step 2: Configure AWS CLI
 
-Initialize the project terraform init
+After installation, the AWS CLI must be configured. Here's how:
 
-Check the execution plan terraform plan
+Open your terminal or command prompt
 
-Apply the configuration to launch your EC2 instance terraform apply -auto-approve
+Enter the command to start the configuration process
 
-To delete the resources when you're done terraform destroy -auto-approve
+Provide your AWS Access Key ID
+
+Enter your AWS Secret Access Key
+
+Choose a default region
+
+Select an output format (e.g., JSON)
+
+To get the access keys:
+
+Log in to your AWS account
+
+Go to the top-right corner and click on your username
+
+Navigate to “My Security Credentials”
+
+In the "Access Keys" section, click on "Create New Access Key"
+
+Save the key details shown on-screen or download the CSV file
+
+Step 3: Create Your Terraform Project Files
+
+Your project folder should contain the following files:
+
+provider.tf – This file specifies the AWS provider and credentials setup
+
+main.tf – Contains the configuration details for launching the EC2 instance
+
+variables.tf – Lists all input variables used in the configuration
+
+terraform.tfvars – Provides actual values for the input variables
+
+Step 4: Execute Terraform Commands
+
+Once all files are in place, perform the following steps:
+
+Initialize the project using the Terraform init command
+
+Generate and review an execution plan
+
+Apply the configuration to deploy the EC2 instance
+
+When finished, use the destroy command to remove all created resources
