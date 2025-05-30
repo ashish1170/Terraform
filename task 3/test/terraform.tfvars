@@ -1,4 +1,4 @@
-ami_id = "ami-04f7a54071e74f488"
+ami_id = "ami-00f34bf9aeacdf007"
 instance_type = "t2.micro"
 cidr_block = "10.0.2.0/24"
 
