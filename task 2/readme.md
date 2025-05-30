@@ -1,62 +1,74 @@
-Terraform Project: Setting Up VPC, Subnet, and EC2 Instance This Terraform project is designed to automate the process of creating a basic AWS infrastructure. It includes the setup of a Virtual Private Cloud (VPC), a subnet within that VPC, and an EC2 instance. The project follows a modular approach, meaning each part of the infrastructure (VPC, Subnet, EC2) is built using its own separate module. This makes the project more organized, reusable, and easier to maintain.
+Terraform-Based AWS Infrastructure: VPC, Subnet, and EC2 Instance Setup
 
-The entire setup is divided into three main modules:
+This project provisions a base AWS environment in an automated fashion using Terraform. It configures three fundamental components: a Virtual Private Cloud (VPC), a subnet within the VPC, and an EC2 virtual machine instance. The code is modular—each element is contained within its own directory—facilitating improved structure, reusability, and maintenance.
+Project Structure Overview
+The infrastructure is divided into three primary modules:
 
-EC2 Module This module handles the creation of the EC2 instance.
-Files in the EC2 module:
+1. EC2 Instance Module
+This module is tasked with creating an EC2 instance in the subnet that has been configured.
 
-main.tf – This is where the EC2 instance is actually defined. It specifies things like the AMI ID (Ubuntu), instance type (t3.micro), the subnet where the instance should be launched, and tags like the name of the instance.
+Important files in the EC2 module:
 
-variables.tf – Contains input variables such as:
+main.tf – It defines the EC2 resource along with its AMI (Ubuntu), instance type (t3.micro), association with a subnet, and tagging information.
 
-ami (Amazon Machine Image ID),
+variables.tf – It takes input parameters such as:
 
-instance_type (like t3.micro),
+AMI ID
 
-subnet_id (to specify which subnet to use),
+Instance type (e.g., t3.micro)
 
-name (for tagging the instance).
+Subnet ID
 
-outputs.tf – After the EC2 instance is created, this file is used to display important information such as the Instance ID.
+Tag name for the instance
 
-VPC Module This module is responsible for creating a Virtual Private Cloud (VPC), which acts like a private network in AWS.
+outputs.tf – It shows the instance's information after deployment, e.g., the EC2 Instance ID.
+
+2. VPC Module
+This section deals with the setup of a Virtual Private Cloud, which is the segregated network space.
+
 Files in the VPC module:
 
-main.tf – Defines the VPC resource using values like the CIDR block (e.g., 10.0.0.0/16) and name tag.
+main.tf – Holds the setup for creating a VPC with a given CIDR block (e.g., 10.0.0.0/16) and a name.
 
-variables.tf – Declares the variables required to create the VPC, such as:
+variables.tf – Declares inputs needed for VPC setup, such as:
 
-cidr_block (the IP address range for the VPC),
+CIDR block
 
-name (to label the VPC).
+VPC name
 
-outputs.tf – Outputs the VPC ID once the resource is created so that it can be used in other modules.
+outputs.tf – Exports the VPC ID, which can be consumed by other modules.
 
-Subnet Module This module creates a subnet within the VPC created above.
+3. Subnet Module
+The subnet module allocates a subnet within the VPC, defining its availability zone and address range.
+
 Files in the Subnet module:
 
-main.tf – Creates a subnet and associates it with the VPC using a smaller CIDR block and an availability zone.
+main.tf – Creates the subnet and associates it with the VPC using a smaller CIDR block.
 
-variables.tf – Input values required here include:
+variables.tf – Accepts the following inputs:
 
-vpc_id
+VPC ID
 
-cidr_block
+CIDR block for the subnet
 
-availability_zone
+Availability zone
 
-outputs.tf – Displays the Subnet ID once it's created.
+outputs.tf – Outputs the Subnet ID after creation.
 
-Root Module Setup The root module is the main entry point of the project. It ties all the above modules together.
+Root Module (Project Entry Point)
+The root module orchestrates the run of all three modules and passes them the necessary variables.
 
-Files in the root module:
+Root directory files:
 
-main.tf – This is where all the individual modules (VPC, subnet, EC2) are called and their variables are passed in. It acts like the "control center" for the infrastructure.
+main.tf – Points to the EC2, subnet, and VPC modules and passes values into them. This is the main orchestrator.
 
-variables.tf – Declares the input variables that will be used across all modules.
+variables.tf – Defines the global variables required across modules.
+terraform.tfvars – Provides real values for the input variables (e.g., VPC CIDR, instance type).
 
-terraform.tfvars – Contains the actual values for the variables declared above (like CIDR blocks, instance type, etc.).
+outputs.tf – Outputs combined outputs consisting of:
 
-outputs.tf – Displays the final output after all resources are created. This includes:
+VPC ID
 
-VPC ID Subnet ID EC2 Instance ID
+Subnet ID
+
+EC2 Instance ID
