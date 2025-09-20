@@ -1,4 +1,4 @@
-Terraform Multi-Tier AWS Architecture Documentation
+                                          Terraform Multi-Tier AWS Architecture Documentation
 
 This project is meant to deploy a secure, highly available, and scalable multi-tier application on Amazon Web Services (AWS) with Terraform. The architecture is modular, so managing, extending, and reusing components becomes a trivial task. What follows is an in-depth description of the structure of the project, modules, configuration, usage, and best practice.
 
